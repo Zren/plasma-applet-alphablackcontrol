@@ -1,0 +1,23 @@
+[Desktop Entry]
+Name=AlphaBlack Control
+Comment=
+
+Type=Service
+Icon=color-picker-black
+X-KDE-ServiceTypes=Plasma/Applet
+
+X-Plasma-API=declarativeappletscript
+X-Plasma-MainScript=ui/Main.qml
+
+X-KDE-PluginInfo-Author=Chris Holland
+X-KDE-PluginInfo-Email=zrenfire@gmail.com
+X-KDE-PluginInfo-Name=com.github.zren.alphablackcontrol
+X-KDE-PluginInfo-Version=1
+X-KDE-PluginInfo-Website=https://github.com/Zren/
+X-KDE-PluginInfo-Category=
+X-KDE-PluginInfo-Depends=
+
+X-Plasma-NotificationArea=true
+X-Plasma-NotificationAreaCategory=SystemServices
+
+X-KDE-PluginInfo-EnabledByDefault=true
