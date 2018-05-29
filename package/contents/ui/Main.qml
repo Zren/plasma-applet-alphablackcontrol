@@ -45,7 +45,7 @@ Item {
 	property bool configLoaded: false
 	function readConfig() {
 		runThemeScript('python3 readconfig.py', function(cmd, exitCode, exitStatus, stdout, stderr) {
-			console.log(cmd, exitCode, exitStatus, stdout, stderr)
+			// console.log(cmd, exitCode, exitStatus, stdout, stderr)
 			var config = JSON.parse(stdout)
 			var accent = config.theme.accentColor.split(',')
 			var accentRed = parseInt(accent[0], 10) / 255
@@ -55,8 +55,8 @@ Item {
 			main.panelOpacity = config.panel.opacity
 			main.taskStyle = config.panel.taskStyle
 			main.configLoaded = true
-			console.log('main.themeAccentColor', main.themeAccentColor)
-			console.log('main.panelOpacity', main.panelOpacity)
+			// console.log('main.themeAccentColor', main.themeAccentColor)
+			// console.log('main.panelOpacity', main.panelOpacity)
 		})
 	}
 	Component.onCompleted: readConfig()
