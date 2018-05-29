@@ -4,5 +4,5 @@ A simple widget to control the desktop theme's accent color, panel opacity, and 
 
 ## Screenshots
 
-![](https://i.imgur.com/asdf.png)
+![](https://i.imgur.com/TYxCBnc.jpg)
 
