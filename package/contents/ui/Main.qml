@@ -23,6 +23,18 @@ Item {
 		id: executable
 	}
 
+	KCoreAddons.KUser {
+		id: kuser
+	}
+
+	readonly property string breezeAlphaBlackDir: {
+		if (kuser.loginName) {
+			return '/home/' + kuser.loginName + '/.local/share/plasma/desktoptheme/breeze-alphablack'
+		} else {
+			return ''
+		}
+	}
+
 	function toRGB(color) {
 		return {
 			'red': parseInt(color.toString().substr(1, 2), 16),
@@ -215,7 +227,7 @@ Item {
 						id: frameInside
 						Layout.fillWidth: true
 						Layout.fillHeight: true
-						imagePath: "/home/chris/.local/share/plasma/desktoptheme/breeze-alphablack/_templates/tasks-inside.svg"
+						imagePath: main.breezeAlphaBlackDir + '/_templates/tasks-inside.svg'
 						label: i18n("Inside (Breeze)")
 						onClicked: frameInsideButton.checked = true
 					}
@@ -238,7 +250,7 @@ Item {
 						Layout.fillWidth: true
 						Layout.fillHeight: true
 						
-						imagePath: "/home/chris/.local/share/plasma/desktoptheme/breeze-alphablack/_templates/tasks-outside.svg"
+						imagePath: main.breezeAlphaBlackDir + '/_templates/tasks-outside.svg'
 						label: i18n("Outside (Windows 10)")
 						onClicked: frameOutsideButton.checked = true
 					}
