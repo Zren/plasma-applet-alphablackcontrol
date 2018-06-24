@@ -19,6 +19,7 @@ Item {
 	property color themeAccentColor: "#000000"
 	property real dialogOpacity: 0.9
 	property real panelOpacity: 0.9
+	property real widgetOpacity: 0.9
 
 	ExecUtil {
 		id: executable
@@ -67,6 +68,7 @@ Item {
 			main.themeAccentColor = Qt.rgba(accentRed, accentGreen, accentBlue, 1)
 			main.dialogOpacity = config.dialog.opacity
 			main.panelOpacity = config.panel.opacity
+			main.widgetOpacity = config.widget.opacity
 			main.taskStyle = config.panel.taskStyle
 			main.configLoaded = true
 			// console.log('main.themeAccentColor', main.themeAccentColor)
@@ -135,6 +137,22 @@ Item {
 		deferredApplyPanelOpacity.restart()
 	}
 
+	//----
+	Timer {
+		id: deferredApplyWidgetOpacity
+		interval: 1000
+		onTriggered: main.applyWidgetOpacity()
+	}
+
+	function applyWidgetOpacity() {
+		runThemeScript('python3 setwidgetopacity.py ' + widgetOpacity)
+	}
+
+	function deferredSetWidgetOpacity(val) {
+		widgetOpacity = val
+		deferredApplyWidgetOpacity.restart()
+	}
+
 
 	Plasmoid.fullRepresentation: Item {
 		id: popupView
@@ -193,6 +211,7 @@ Item {
 					items: [
 						dialogOpacityLabel,
 						panelOpacityLabel,
+						widgetOpacityLabel,
 					]
 				}
 
@@ -264,6 +283,42 @@ Item {
 							id: panelWidthMetrics
 							text: panelOpacityValueLabel.formatText(1)
 							font: panelOpacityValueLabel.font
+						}
+					}
+				}
+
+				RowLayout {
+					PlasmaComponents.Label {
+						id: widgetOpacityLabel
+						text: i18n("Desktop\nWidgets:")
+					}
+					PlasmaComponents.Slider {
+						id: widgetOpacitySlider
+						minimumValue: 0
+						maximumValue: 1
+						stepSize: 0.01
+						value: main.widgetOpacity
+						Layout.fillWidth: true
+						Layout.fillHeight: true
+						onValueChanged: {
+							if (!(main.configLoaded && popupView.loaded)) return;
+
+							main.deferredSetWidgetOpacity(value)
+						}
+					}
+					PlasmaComponents.Label {
+						id: widgetOpacityValueLabel
+						function formatText(val) {
+							return Math.round(val * 100) + '%'
+						}
+						text: formatText(widgetOpacitySlider.value)
+						opacity: 0.6
+						Layout.preferredWidth: widgetWidthMetrics.width
+
+						TextMetrics {
+							id: widgetWidthMetrics
+							text: widgetOpacityValueLabel.formatText(1)
+							font: widgetOpacityValueLabel.font
 						}
 					}
 				}
