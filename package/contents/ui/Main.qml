@@ -209,118 +209,31 @@ Item {
 
 				ConsistentWidth {
 					items: [
-						dialogOpacityLabel,
-						panelOpacityLabel,
-						widgetOpacityLabel,
+						dialogOpacitySlider.label,
+						panelOpacitySlider.label,
+						widgetOpacitySlider.label,
 					]
 				}
 
-				RowLayout {
-					PlasmaComponents.Label {
-						id: dialogOpacityLabel
-						text: i18n("Popups:")
-					}
-					PlasmaComponents.Slider {
-						id: dialogOpacitySlider
-						minimumValue: 0
-						maximumValue: 1
-						stepSize: 0.01
-						value: main.dialogOpacity
-						Layout.fillWidth: true
-						Layout.fillHeight: true
-						onValueChanged: {
-							if (!(main.configLoaded && popupView.loaded)) return;
-
-							main.deferredSetDialogOpacity(value)
-						}
-					}
-					PlasmaComponents.Label {
-						id: dialogOpacityValueLabel
-						function formatText(val) {
-							return Math.round(val * 100) + '%'
-						}
-						text: formatText(dialogOpacitySlider.value)
-						opacity: 0.6
-						Layout.preferredWidth: dialogWidthMetrics.width
-
-						TextMetrics {
-							id: dialogWidthMetrics
-							text: dialogOpacityValueLabel.formatText(1)
-							font: dialogOpacityValueLabel.font
-						}
-					}
+				OpacitySlider {
+					id: dialogOpacitySlider
+					text: i18n("Popups:")
+					value: main.dialogOpacity
+					setValueFunc: main.deferredSetDialogOpacity
 				}
 
-				RowLayout {
-					PlasmaComponents.Label {
-						id: panelOpacityLabel
-						text: i18n("Panel:")
-					}
-					PlasmaComponents.Slider {
-						id: panelOpacitySlider
-						minimumValue: 0
-						maximumValue: 1
-						stepSize: 0.01
-						value: main.panelOpacity
-						Layout.fillWidth: true
-						Layout.fillHeight: true
-						onValueChanged: {
-							if (!(main.configLoaded && popupView.loaded)) return;
-
-							main.deferredSetPanelOpacity(value)
-						}
-					}
-					PlasmaComponents.Label {
-						id: panelOpacityValueLabel
-						function formatText(val) {
-							return Math.round(val * 100) + '%'
-						}
-						text: formatText(panelOpacitySlider.value)
-						opacity: 0.6
-						Layout.preferredWidth: panelWidthMetrics.width
-
-						TextMetrics {
-							id: panelWidthMetrics
-							text: panelOpacityValueLabel.formatText(1)
-							font: panelOpacityValueLabel.font
-						}
-					}
+				OpacitySlider {
+					id: panelOpacitySlider
+					text: i18n("Panel:")
+					value: main.panelOpacity
+					setValueFunc: main.deferredSetPanelOpacity
 				}
 
-				RowLayout {
-					PlasmaComponents.Label {
-						id: widgetOpacityLabel
-						text: i18n("Desktop\nWidgets:")
-					}
-					PlasmaComponents.Slider {
-						id: widgetOpacitySlider
-						minimumValue: 0
-						maximumValue: 1
-						stepSize: 0.01
-						value: main.widgetOpacity
-						Layout.fillWidth: true
-						Layout.fillHeight: true
-						onValueChanged: {
-							if (!(main.configLoaded && popupView.loaded)) return;
-
-							main.deferredSetWidgetOpacity(value)
-						}
-					}
-					PlasmaComponents.Label {
-						id: widgetOpacityValueLabel
-						function formatText(val) {
-							return Math.round(val * 100) + '%'
-						}
-						text: formatText(widgetOpacitySlider.value)
-						opacity: 0.6
-						Layout.preferredWidth: widgetWidthMetrics.width
-
-						TextMetrics {
-							id: widgetWidthMetrics
-							text: widgetOpacityValueLabel.formatText(1)
-							font: widgetOpacityValueLabel.font
-						}
-					}
+				OpacitySlider {
+					id: widgetOpacitySlider
+					text: i18n("Desktop\nWidgets:")
+					value: main.widgetOpacity
+					setValueFunc: main.deferredSetWidgetOpacity
 				}
 
 				PlasmaExtras.Heading {
