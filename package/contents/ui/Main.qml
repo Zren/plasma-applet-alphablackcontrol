@@ -17,6 +17,7 @@ Item {
 
 	property string taskStyle: 'inside'
 	property color themeAccentColor: "#000000"
+	property real dialogOpacity: 0.9
 	property real panelOpacity: 0.9
 
 	ExecUtil {
@@ -64,10 +65,12 @@ Item {
 			var accentGreen = parseInt(accent[1], 10) / 255
 			var accentBlue = parseInt(accent[2], 10) / 255
 			main.themeAccentColor = Qt.rgba(accentRed, accentGreen, accentBlue, 1)
+			main.dialogOpacity = config.dialog.opacity
 			main.panelOpacity = config.panel.opacity
 			main.taskStyle = config.panel.taskStyle
 			main.configLoaded = true
 			// console.log('main.themeAccentColor', main.themeAccentColor)
+			// console.log('main.dialogOpacity', main.dialogOpacity)
 			// console.log('main.panelOpacity', main.panelOpacity)
 		})
 	}
@@ -98,6 +101,22 @@ Item {
 	//----
 	function setTaskSvg(taskStyle) {
 		runThemeScript('python3 settasksvg.py ' + taskStyle)
+	}
+
+	//----
+	Timer {
+		id: deferredApplyDialogOpacity
+		interval: 1000
+		onTriggered: main.applyDialogOpacity()
+	}
+
+	function applyDialogOpacity() {
+		runThemeScript('python3 setdialogopacity.py ' + dialogOpacity)
+	}
+
+	function deferredSetDialogOpacity(val) {
+		dialogOpacity = val
+		deferredApplyDialogOpacity.restart()
 	}
 
 	//----
@@ -166,6 +185,46 @@ Item {
 				}
 
 				PlasmaExtras.Heading {
+					text: i18n("Background")
+					level: 3
+				}
+
+				RowLayout {
+					PlasmaComponents.Label {
+						text: i18n("Opacity:")
+					}
+					PlasmaComponents.Slider {
+						id: dialogOpacitySlider
+						minimumValue: 0
+						maximumValue: 1
+						stepSize: 0.01
+						value: main.dialogOpacity
+						Layout.fillWidth: true
+						Layout.fillHeight: true
+						onValueChanged: {
+							if (!(main.configLoaded && popupView.loaded)) return;
+
+							main.deferredSetDialogOpacity(value)
+						}
+					}
+					PlasmaComponents.Label {
+						id: dialogOpacityLabel
+						function formatText(val) {
+							return Math.round(val * 100) + '%'
+						}
+						text: formatText(dialogOpacitySlider.value)
+						opacity: 0.6
+						Layout.preferredWidth: dialogWidthMetrics.width
+
+						TextMetrics {
+							id: dialogWidthMetrics
+							text: dialogOpacityLabel.formatText(1)
+							font: dialogOpacityLabel.font
+						}
+					}
+				}
+
+				PlasmaExtras.Heading {
 					text: i18n("Panel")
 					level: 3
 				}
@@ -195,10 +254,10 @@ Item {
 						}
 						text: formatText(panelOpacitySlider.value)
 						opacity: 0.6
-						Layout.preferredWidth: widthMetrics.width
+						Layout.preferredWidth: panelWidthMetrics.width
 
 						TextMetrics {
-							id: widthMetrics
+							id: panelWidthMetrics
 							text: panelOpacityLabel.formatText(1)
 							font: panelOpacityLabel.font
 						}
