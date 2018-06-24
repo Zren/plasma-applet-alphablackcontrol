@@ -185,13 +185,21 @@ Item {
 				}
 
 				PlasmaExtras.Heading {
-					text: i18n("Background")
+					text: i18n("Opacity")
 					level: 3
+				}
+
+				ConsistentWidth {
+					items: [
+						dialogOpacityLabel,
+						panelOpacityLabel,
+					]
 				}
 
 				RowLayout {
 					PlasmaComponents.Label {
-						text: i18n("Opacity:")
+						id: dialogOpacityLabel
+						text: i18n("Popups:")
 					}
 					PlasmaComponents.Slider {
 						id: dialogOpacitySlider
@@ -208,7 +216,7 @@ Item {
 						}
 					}
 					PlasmaComponents.Label {
-						id: dialogOpacityLabel
+						id: dialogOpacityValueLabel
 						function formatText(val) {
 							return Math.round(val * 100) + '%'
 						}
@@ -218,20 +226,16 @@ Item {
 
 						TextMetrics {
 							id: dialogWidthMetrics
-							text: dialogOpacityLabel.formatText(1)
-							font: dialogOpacityLabel.font
+							text: dialogOpacityValueLabel.formatText(1)
+							font: dialogOpacityValueLabel.font
 						}
 					}
 				}
 
-				PlasmaExtras.Heading {
-					text: i18n("Panel")
-					level: 3
-				}
-
 				RowLayout {
 					PlasmaComponents.Label {
-						text: i18n("Opacity:")
+						id: panelOpacityLabel
+						text: i18n("Panel:")
 					}
 					PlasmaComponents.Slider {
 						id: panelOpacitySlider
@@ -248,7 +252,7 @@ Item {
 						}
 					}
 					PlasmaComponents.Label {
-						id: panelOpacityLabel
+						id: panelOpacityValueLabel
 						function formatText(val) {
 							return Math.round(val * 100) + '%'
 						}
@@ -258,8 +262,8 @@ Item {
 
 						TextMetrics {
 							id: panelWidthMetrics
-							text: panelOpacityLabel.formatText(1)
-							font: panelOpacityLabel.font
+							text: panelOpacityValueLabel.formatText(1)
+							font: panelOpacityValueLabel.font
 						}
 					}
 				}
