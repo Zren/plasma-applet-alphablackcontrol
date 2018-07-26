@@ -1,3 +1,7 @@
+## v3 - July 26 2018
+
+* Add buttons to reset window decoration colors or reapply the colors based on the accent color.
+
 ## v2 - June 24 2018
 
 * Add background opacity sliders for popups and desktop widgets.
