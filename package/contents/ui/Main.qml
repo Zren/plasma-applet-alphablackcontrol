@@ -99,6 +99,15 @@ Item {
 		themeAccentColor = color
 		applyThemeColor()
 	}
+
+	//----
+	function applyTitleBarColor() {
+		runThemeScript('python3 settitlebarcolor.py ' + toColorStr(themeAccentColor))
+	}
+
+	function resetTitleBarColor() {
+		runThemeScript('python3 resettitlebarcolor.py')
+	}
 	
 	//----
 	function setTaskSvg(taskStyle) {
@@ -178,41 +187,70 @@ Item {
 			ColumnLayout {
 				width: scrollView.viewportWidth
 				// width: parent.width
-				PlasmaExtras.Heading {
-					text: i18n("Accent Color")
-					level: 3
-				}
+				
+				ColumnLayout {
+					spacing: 0
 
-				PlasmaComponents.Label {
-					text: i18n("Panel, Window Titlebars & Frames")
-					opacity: 0.6
-				}
-
-				RowLayout {
-					ConfigColor {
-						id: accentColorSelector
-						Layout.fillWidth: true
-						value: main.themeAccentColor
-						label: ""
-						showAlphaChannel: false
-						
-						onValueChanged: apply()
-						function apply() {
-							if (!(main.configLoaded && popupView.loaded)) return;
-
-							if (textField.text.charAt(0) === '#' && textField.text.length == 7) {
-								main.deferredSetThemeColor(textField.text)
-							}
-						}
+					PlasmaExtras.Heading {
+						text: i18n("Accent Color")
+						level: 3
+						lineHeight: 1
 					}
 
-					PlasmaComponents.Button {
-						text: i18n("Reapply")
-						onClicked: accentColorSelector.apply()
-						implicitWidth: minimumWidth
+					PlasmaComponents.Label {
+						text: i18n("Panel, Widget, Window Titlebars & Frames")
+						opacity: 0.6
+					}
+				}
+
+				ConfigColor {
+					id: accentColorSelector
+					Layout.fillWidth: true
+					value: main.themeAccentColor
+					label: ""
+					showAlphaChannel: false
+					
+					onValueChanged: apply()
+					function apply() {
+						if (!(main.configLoaded && popupView.loaded)) return;
+
+						if (textField.text.charAt(0) === '#' && textField.text.length == 7) {
+							main.deferredSetThemeColor(textField.text)
+						}
+					}
+				}
+
+				ColumnLayout {
+					spacing: 0
+
+					PlasmaExtras.Heading {
+						text: i18n("Window Titlebars & Frames")
+						level: 3
+						lineHeight: 1
+					}
+
+					PlasmaComponents.Label {
+						Layout.fillWidth: true
+						text: i18n("Apply accent color to Breeze window decorations?")
+						opacity: 0.6
+						wrapMode: Text.Wrap
 					}
 				}
 				
+				RowLayout {
+					PlasmaComponents.Button {
+						text: i18n("Apply Colors")
+						iconName: "dialog-ok-apply"
+						onClicked: main.applyTitleBarColor()
+						implicitWidth: minimumWidth
+					}
+					PlasmaComponents.Button {
+						text: i18n("Reset Colors")
+						iconName: "edit-undo-symbolic"
+						onClicked: main.resetTitleBarColor()
+						implicitWidth: minimumWidth
+					}
+				}
 
 				PlasmaExtras.Heading {
 					text: i18n("Opacity")
