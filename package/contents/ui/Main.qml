@@ -188,19 +188,31 @@ Item {
 					opacity: 0.6
 				}
 
-				ConfigColor {
-					Layout.fillWidth: true
-					value: main.themeAccentColor
-					label: ""
-					showAlphaChannel: false
-					onValueChanged: {
-						if (!(main.configLoaded && popupView.loaded)) return;
+				RowLayout {
+					ConfigColor {
+						id: accentColorSelector
+						Layout.fillWidth: true
+						value: main.themeAccentColor
+						label: ""
+						showAlphaChannel: false
+						
+						onValueChanged: apply()
+						function apply() {
+							if (!(main.configLoaded && popupView.loaded)) return;
 
-						if (textField.text.charAt(0) === '#' && textField.text.length == 7) {
-							main.deferredSetThemeColor(textField.text)
+							if (textField.text.charAt(0) === '#' && textField.text.length == 7) {
+								main.deferredSetThemeColor(textField.text)
+							}
 						}
 					}
+
+					PlasmaComponents.Button {
+						text: i18n("Reapply")
+						onClicked: accentColorSelector.apply()
+						implicitWidth: minimumWidth
+					}
 				}
+				
 
 				PlasmaExtras.Heading {
 					text: i18n("Opacity")
