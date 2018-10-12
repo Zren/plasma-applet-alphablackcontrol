@@ -12,8 +12,9 @@ import "lib"
 Item {
 	id: main
 
+	property bool validDesktopTheme: theme.themeName == 'breeze-alphablack' || theme.themeName == 'breeze-dark'
 	property bool widgetsUnlocked: plasmoid.immutability === PlasmaCore.Types.Mutable
-	Plasmoid.status: widgetsUnlocked ? PlasmaCore.Types.ActiveStatus : PlasmaCore.Types.HiddenStatus
+	Plasmoid.status: validDesktopTheme && widgetsUnlocked ? PlasmaCore.Types.ActiveStatus : PlasmaCore.Types.HiddenStatus
 
 	property string taskStyle: 'inside'
 	property color themeAccentColor: "#000000"
