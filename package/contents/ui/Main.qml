@@ -13,7 +13,7 @@ Item {
 	id: main
 
 	property bool widgetsUnlocked: plasmoid.immutability === PlasmaCore.Types.Mutable
-	Plasmoid.status: widgetsUnlocked ? PlasmaCore.Types.ActiveStatus : PlasmaCore.Types.PassiveStatus
+	Plasmoid.status: widgetsUnlocked ? PlasmaCore.Types.ActiveStatus : PlasmaCore.Types.HiddenStatus
 
 	property string taskStyle: 'inside'
 	property color themeAccentColor: "#000000"
