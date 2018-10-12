@@ -337,7 +337,25 @@ Item {
 					}
 				}
 
+				Item {
+					Layout.preferredHeight: units.largeSpacing
+				}
 
+				RowLayout {
+					PlasmaCore.IconItem {
+						source: "unlock"
+						Layout.preferredWidth: units.iconSizes.medium
+						Layout.preferredHeight: units.iconSizes.medium
+						Layout.alignment: Qt.AlignTop
+					}
+
+					PlasmaComponents.Label {
+						Layout.fillWidth: true
+						text: i18n("Lock Widgets to hide the AlphaBlack Control widget, or uninstall the widget via \"Add Widgets\".")
+						opacity: 0.6
+						wrapMode: Text.Wrap
+					}
+				}
 
 			}
 		}
