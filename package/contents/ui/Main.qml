@@ -130,7 +130,7 @@ Item {
 
 	//----
 	function applyTitleBarColor() {
-		runThemeScript('python3 settitlebarcolor.py ' + toColorStr(themeAccentColor))
+		runThemeScript('python3 settitlebarcolor.py ' + toColorStr(themeAccentColor) + ' ' + toColorStr(themeTextColor))
 	}
 
 	function resetTitleBarColor() {
