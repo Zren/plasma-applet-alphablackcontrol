@@ -38,6 +38,14 @@ Item {
 		}
 	}
 
+	function parseColorStr(str) {
+		var tokens = str.split(',')
+		var red = parseInt(tokens[0], 10) / 255
+		var green = parseInt(tokens[1], 10) / 255
+		var blue = parseInt(tokens[2], 10) / 255
+		return Qt.rgba(red, green, blue, 1)
+	}
+
 	function toRGB(color) {
 		return {
 			'red': parseInt(color.toString().substr(1, 2), 16),
@@ -62,11 +70,7 @@ Item {
 		runThemeScript('python3 readconfig.py', function(cmd, exitCode, exitStatus, stdout, stderr) {
 			// console.log(cmd, exitCode, exitStatus, stdout, stderr)
 			var config = JSON.parse(stdout)
-			var accent = config.theme.accentColor.split(',')
-			var accentRed = parseInt(accent[0], 10) / 255
-			var accentGreen = parseInt(accent[1], 10) / 255
-			var accentBlue = parseInt(accent[2], 10) / 255
-			main.themeAccentColor = Qt.rgba(accentRed, accentGreen, accentBlue, 1)
+			main.themeAccentColor = parseColorStr(config.theme.accentColor)
 			main.dialogOpacity = config.dialog.opacity
 			main.panelOpacity = config.panel.opacity
 			main.widgetOpacity = config.widget.opacity
