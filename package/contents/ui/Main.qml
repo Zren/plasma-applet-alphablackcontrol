@@ -89,52 +89,22 @@ Item {
 
 
 	//----
-	Timer {
-		id: deferredApplyThemeColor
-		interval: 1000
-		onTriggered: main.applyThemeColor()
+	ThemeColor {
+		id: accentColorItem
+		mainPropKey: 'themeAccentColor'
+		scriptFilename: 'setthemecolor.py'
 	}
 
-	function applyThemeColor() {
-		runThemeScript('python3 setthemecolor.py ' + toColorStr(themeAccentColor))
-	}
-
-	function deferredSetThemeColor(color) {
-		themeAccentColor = color
-		deferredApplyThemeColor.restart()
-	}
-
-	function setThemeColor(color) {
-		themeAccentColor = color
-		applyThemeColor()
-	}
-
-	//----
 	ThemeColor {
 		id: highlightColorItem
 		mainPropKey: 'themeHighlightColor'
 		scriptFilename: 'sethighlightcolor.py'
 	}
 
-	//----
-	Timer {
-		id: deferredApplyTextColor
-		interval: 1000
-		onTriggered: main.applyTextColor()
-	}
-
-	function applyTextColor() {
-		runThemeScript('python3 settextcolor.py ' + toColorStr(themeTextColor))
-	}
-
-	function deferredSetTextColor(color) {
-		themeTextColor = color
-		deferredApplyTextColor.restart()
-	}
-
-	function setTextColor(color) {
-		themeTextColor = color
-		applyTextColor()
+	ThemeColor {
+		id: textColorItem
+		mainPropKey: 'themeTextColor'
+		scriptFilename: 'settextcolor.py'
 	}
 
 	//----
@@ -252,7 +222,7 @@ Item {
 						if (!(main.configLoaded && popupView.loaded)) return;
 
 						if (textField.text.charAt(0) === '#' && textField.text.length == 7) {
-							main.deferredSetThemeColor(textField.text)
+							accentColorItem.deferredSetColor(textField.text)
 						}
 					}
 				}
@@ -274,7 +244,7 @@ Item {
 						if (!(main.configLoaded && popupView.loaded)) return;
 
 						if (textField.text.charAt(0) === '#' && textField.text.length == 7) {
-							main.deferredSetTextColor(textField.text)
+							textColorItem.deferredSetColor(textField.text)
 						}
 					}
 				}
@@ -285,6 +255,7 @@ Item {
 				}
 
 				ConfigColor {
+					id: highlightColorSelector
 					Layout.fillWidth: true
 					value: main.themeHighlightColor
 					label: ""
