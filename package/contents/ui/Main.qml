@@ -18,6 +18,7 @@ Item {
 
 	property string taskStyle: 'inside'
 	property color themeAccentColor: "#000000"
+	property color themeHighlightColor: "#000000"
 	property color themeTextColor: "#000000"
 	property real dialogOpacity: 0.9
 	property real panelOpacity: 0.9
@@ -72,6 +73,7 @@ Item {
 			// console.log(cmd, exitCode, exitStatus, stdout, stderr)
 			var config = JSON.parse(stdout)
 			main.themeAccentColor = parseColorStr(config.theme.accentColor)
+			main.themeHighlightColor = parseColorStr(config.theme.highlightColor)
 			main.themeTextColor = parseColorStr(config.theme.textColor)
 			main.dialogOpacity = config.dialog.opacity
 			main.panelOpacity = config.panel.opacity
@@ -105,6 +107,13 @@ Item {
 	function setThemeColor(color) {
 		themeAccentColor = color
 		applyThemeColor()
+	}
+
+	//----
+	ThemeColor {
+		id: highlightColorItem
+		mainPropKey: 'themeHighlightColor'
+		scriptFilename: 'sethighlightcolor.py'
 	}
 
 	//----
@@ -266,6 +275,27 @@ Item {
 
 						if (textField.text.charAt(0) === '#' && textField.text.length == 7) {
 							main.deferredSetTextColor(textField.text)
+						}
+					}
+				}
+
+				PlasmaComponents.Label {
+					text: i18n("Highlight Color")
+					opacity: 0.6
+				}
+
+				ConfigColor {
+					Layout.fillWidth: true
+					value: main.themeHighlightColor
+					label: ""
+					showAlphaChannel: false
+					
+					onValueChanged: apply()
+					function apply() {
+						if (!(main.configLoaded && popupView.loaded)) return;
+
+						if (textField.text.charAt(0) === '#' && textField.text.length == 7) {
+							highlightColorItem.deferredSetColor(textField.text)
 						}
 					}
 				}
