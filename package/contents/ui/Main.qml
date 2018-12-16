@@ -71,6 +71,7 @@ Item {
 	function readConfig() {
 		runThemeScript('python3 readconfig.py', function(cmd, exitCode, exitStatus, stdout, stderr) {
 			// console.log(cmd, exitCode, exitStatus, stdout, stderr)
+			main.configLoaded = false
 			var config = JSON.parse(stdout)
 			main.themeAccentColor = parseColorStr(config.theme.accentColor)
 			main.themeHighlightColor = parseColorStr(config.theme.highlightColor)
@@ -83,6 +84,9 @@ Item {
 			// console.log('main.themeAccentColor', main.themeAccentColor)
 			// console.log('main.dialogOpacity', main.dialogOpacity)
 			// console.log('main.panelOpacity', main.panelOpacity)
+
+			// If we've modified any values, the binding has been broken, so rebind to the properties.
+			main.Plasmoid.fullRepresentationItem.updateConfigBindings()
 		})
 	}
 	Component.onCompleted: readConfig()
@@ -105,6 +109,13 @@ Item {
 		id: textColorItem
 		mainPropKey: 'themeTextColor'
 		scriptFilename: 'settextcolor.py'
+	}
+
+	//----
+	function resetAllToDefaults() {
+		runThemeScript('python3 resettodefaults.py', function(cmd, exitCode, exitStatus, stdout, stderr) {
+			main.readConfig()
+		})
 	}
 
 	//----
@@ -181,6 +192,12 @@ Item {
 		Layout.preferredHeight: scrollView.contentHeight
 		// Layout.maximumWidth: plasmoid.screenGeometry.width
 		// Layout.maximumHeight: plasmoid.screenGeometry.height
+
+		function updateConfigBindings() {
+			accentColorSelector.value = Qt.binding(function() { return main.themeAccentColor })
+			textColorSelector.value = Qt.binding(function() { return main.themeTextColor })
+			highlightColorSelector.value = Qt.binding(function() { return main.themeHighlightColor })
+		}
 
 
 		PlasmaExtras.ScrollArea {
@@ -406,6 +423,18 @@ Item {
 						opacity: 0.6
 						wrapMode: Text.Wrap
 					}
+				}
+
+				Item {
+					Layout.preferredHeight: units.largeSpacing
+				}
+
+				PlasmaComponents.Button {
+					text: i18n("Reset To Defaults")
+					iconName: "edit-undo-symbolic"
+					onClicked: main.resetAllToDefaults()
+					implicitWidth: minimumWidth
+					Layout.alignment: Qt.AlignHCenter
 				}
 
 			}
