@@ -86,7 +86,9 @@ Item {
 			// console.log('main.panelOpacity', main.panelOpacity)
 
 			// If we've modified any values, the binding has been broken, so rebind to the properties.
-			main.Plasmoid.fullRepresentationItem.updateConfigBindings()
+			if (main.Plasmoid.fullRepresentationItem) {
+				main.Plasmoid.fullRepresentationItem.updateConfigBindings()
+			}
 		})
 	}
 	Component.onCompleted: readConfig()
