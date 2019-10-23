@@ -127,21 +127,21 @@ Item {
 
 	//----
 	ThemeColor {
-		id: accentColorItem
+		id: accentColorProperty
+		propPath: 'theme.accentColor'
 		mainPropKey: 'themeAccentColor'
-		scriptFilename: 'setthemecolor.py'
 	}
 
 	ThemeColor {
-		id: highlightColorItem
+		id: highlightColorProperty
+		propPath: 'theme.highlightColor'
 		mainPropKey: 'themeHighlightColor'
-		scriptFilename: 'sethighlightcolor.py'
 	}
 
 	ThemeColor {
-		id: textColorItem
+		id: textColorProperty
+		propPath: 'theme.textColor'
 		mainPropKey: 'themeTextColor'
-		scriptFilename: 'settextcolor.py'
 	}
 
 	//----
@@ -166,18 +166,18 @@ Item {
 	}
 
 	//----
-	DeferredSetProperty {
-		id: deferredDialogOpacity
+	ThemeProperty {
+		id: dialogOpacityProperty
 		propPath: 'dialog.opacity'
 		mainPropKey: 'dialogOpacity'
 	}
-	DeferredSetProperty {
-		id: deferredPanelOpacity
+	ThemeProperty {
+		id: panelOpacityProperty
 		propPath: 'panel.opacity'
 		mainPropKey: 'panelOpacity'
 	}
-	DeferredSetProperty {
-		id: deferredWidgetOpacity
+	ThemeProperty {
+		id: widgetOpacityProperty
 		propPath: 'widget.opacity'
 		mainPropKey: 'widgetOpacity'
 	}
@@ -242,7 +242,7 @@ Item {
 						if (!(main.configLoaded && popupView.loaded)) return;
 
 						if (textField.text.charAt(0) === '#' && textField.text.length == 7) {
-							accentColorItem.deferredSetColor(textField.text)
+							accentColorProperty.deferredSet(textField.text)
 						}
 					}
 				}
@@ -264,7 +264,7 @@ Item {
 						if (!(main.configLoaded && popupView.loaded)) return;
 
 						if (textField.text.charAt(0) === '#' && textField.text.length == 7) {
-							textColorItem.deferredSetColor(textField.text)
+							textColorProperty.deferredSet(textField.text)
 						}
 					}
 				}
@@ -286,7 +286,7 @@ Item {
 						if (!(main.configLoaded && popupView.loaded)) return;
 
 						if (textField.text.charAt(0) === '#' && textField.text.length == 7) {
-							highlightColorItem.deferredSetColor(textField.text)
+							highlightColorProperty.deferredSet(textField.text)
 						}
 					}
 				}
@@ -340,21 +340,21 @@ Item {
 					id: dialogOpacitySlider
 					text: i18n("Popups:")
 					value: main.dialogOpacity
-					setValueFunc: deferredDialogOpacity.set
+					setValueFunc: dialogOpacityProperty.deferredSet
 				}
 
 				OpacitySlider {
 					id: panelOpacitySlider
 					text: i18n("Panel:")
 					value: main.panelOpacity
-					setValueFunc: deferredPanelOpacity.set
+					setValueFunc: panelOpacityProperty.deferredSet
 				}
 
 				OpacitySlider {
 					id: widgetOpacitySlider
 					text: i18n("Desktop\nWidgets:")
 					value: main.widgetOpacity
-					setValueFunc: deferredWidgetOpacity.set
+					setValueFunc: widgetOpacityProperty.deferredSet
 				}
 
 				PlasmaExtras.Heading {
