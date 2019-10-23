@@ -79,7 +79,7 @@ Item {
 		runThemeCommand(command, function(cmd, exitCode, exitStatus, stdout, stderr) {
 			// console.log(cmd, exitCode, exitStatus, stdout, stderr)
 			var config = JSON.parse(stdout)
-			callback(config)
+			callback && callback(config)
 		})
 	}
 	function getThemeProperty(propPath, callback) {
@@ -87,14 +87,14 @@ Item {
 		runThemeCommand(command, function(cmd, exitCode, exitStatus, stdout, stderr) {
 			// console.log(cmd, exitCode, exitStatus, stdout, stderr)
 			var value = JSON.parse(stdout)
-			callback(value)
+			callback && callback(value)
 		})
 	}
 	function setThemeProperty(propPath, value, callback) {
 		var command = 'set ' + propPath + ' ' + value
 		runThemeCommand(command, function(cmd, exitCode, exitStatus, stdout, stderr) {
 			// console.log(cmd, exitCode, exitStatus, stdout, stderr)
-			callback()
+			callback && callback()
 		})
 	}
 
