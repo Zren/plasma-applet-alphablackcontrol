@@ -166,54 +166,24 @@ Item {
 	}
 
 	//----
-	Timer {
-		id: deferredApplyDialogOpacity
-		interval: 1000
-		onTriggered: main.applyDialogOpacity()
+	DeferredSetProperty {
+		id: deferredDialogOpacity
+		propPath: 'dialog.opacity'
+		mainPropKey: 'dialogOpacity'
+	}
+	DeferredSetProperty {
+		id: deferredPanelOpacity
+		propPath: 'panel.opacity'
+		mainPropKey: 'panelOpacity'
+	}
+	DeferredSetProperty {
+		id: deferredWidgetOpacity
+		propPath: 'widget.opacity'
+		mainPropKey: 'widgetOpacity'
 	}
 
-	function applyDialogOpacity() {
-		setThemeProperty('dialog.opacity', dialogOpacity)
-	}
-
-	function deferredSetDialogOpacity(val) {
-		dialogOpacity = val
-		deferredApplyDialogOpacity.restart()
-	}
 
 	//----
-	Timer {
-		id: deferredApplyPanelOpacity
-		interval: 1000
-		onTriggered: main.applyPanelOpacity()
-	}
-
-	function applyPanelOpacity() {
-		setThemeProperty('panel.opacity', panelOpacity)
-	}
-
-	function deferredSetPanelOpacity(val) {
-		panelOpacity = val
-		deferredApplyPanelOpacity.restart()
-	}
-
-	//----
-	Timer {
-		id: deferredApplyWidgetOpacity
-		interval: 1000
-		onTriggered: main.applyWidgetOpacity()
-	}
-
-	function applyWidgetOpacity() {
-		setThemeProperty('widget.opacity', widgetOpacity)
-	}
-
-	function deferredSetWidgetOpacity(val) {
-		widgetOpacity = val
-		deferredApplyWidgetOpacity.restart()
-	}
-
-
 	Plasmoid.fullRepresentation: Item {
 		id: popupView
 		property bool loaded: false
@@ -370,21 +340,21 @@ Item {
 					id: dialogOpacitySlider
 					text: i18n("Popups:")
 					value: main.dialogOpacity
-					setValueFunc: main.deferredSetDialogOpacity
+					setValueFunc: deferredDialogOpacity.set
 				}
 
 				OpacitySlider {
 					id: panelOpacitySlider
 					text: i18n("Panel:")
 					value: main.panelOpacity
-					setValueFunc: main.deferredSetPanelOpacity
+					setValueFunc: deferredPanelOpacity.set
 				}
 
 				OpacitySlider {
 					id: widgetOpacitySlider
 					text: i18n("Desktop\nWidgets:")
 					value: main.widgetOpacity
-					setValueFunc: main.deferredSetWidgetOpacity
+					setValueFunc: deferredWidgetOpacity.set
 				}
 
 				PlasmaExtras.Heading {
