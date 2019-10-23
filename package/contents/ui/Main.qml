@@ -40,6 +40,8 @@ Item {
 		}
 	}
 
+
+	//----
 	function parseColorStr(str) {
 		var tokens = str.split(',')
 		var red = parseInt(tokens[0], 10) / 255
@@ -61,18 +63,47 @@ Item {
 		return rgb.red + ',' + rgb.green + ',' + rgb.blue
 	}
 
+
+	//----
 	function runThemeScript(relativeCommand, callback) {
+		console.log('runThemeScript', relativeCommand)
 		var cmd =  'cd ~/.local/share/plasma/desktoptheme/breeze-alphablack/ && ' + relativeCommand
 		executable.exec(cmd, callback)
+	}
+	function runThemeCommand(command, callback) {
+		var relativeCommand = 'python3 desktoptheme.py ' + command
+		runThemeScript(relativeCommand, callback)
+	}
+	function getAllThemeProperties(callback) {
+		var command = 'getall --json'
+		runThemeCommand(command, function(cmd, exitCode, exitStatus, stdout, stderr) {
+			// console.log(cmd, exitCode, exitStatus, stdout, stderr)
+			var config = JSON.parse(stdout)
+			callback(config)
+		})
+	}
+	function getThemeProperty(propPath, callback) {
+		var command = 'get ' + propPath
+		runThemeCommand(command, function(cmd, exitCode, exitStatus, stdout, stderr) {
+			// console.log(cmd, exitCode, exitStatus, stdout, stderr)
+			var value = JSON.parse(stdout)
+			callback(value)
+		})
+	}
+	function setThemeProperty(propPath, value, callback) {
+		var command = 'set ' + propPath + ' ' + value
+		runThemeCommand(command, function(cmd, exitCode, exitStatus, stdout, stderr) {
+			// console.log(cmd, exitCode, exitStatus, stdout, stderr)
+			callback()
+		})
 	}
 
 	//----
 	property bool configLoaded: false
 	function readConfig() {
-		runThemeScript('python3 readconfig.py', function(cmd, exitCode, exitStatus, stdout, stderr) {
-			// console.log(cmd, exitCode, exitStatus, stdout, stderr)
+		getAllThemeProperties(function(config) {
+			// console.log('config', JSON.stringify(config, null, '\t'))
 			main.configLoaded = false
-			var config = JSON.parse(stdout)
 			main.themeAccentColor = parseColorStr(config.theme.accentColor)
 			main.themeHighlightColor = parseColorStr(config.theme.highlightColor)
 			main.themeTextColor = parseColorStr(config.theme.textColor)
@@ -115,23 +146,23 @@ Item {
 
 	//----
 	function resetAllToDefaults() {
-		runThemeScript('python3 resettodefaults.py', function(cmd, exitCode, exitStatus, stdout, stderr) {
+		runThemeCommand('reset', function(cmd, exitCode, exitStatus, stdout, stderr) {
 			main.readConfig()
 		})
 	}
 
 	//----
-	function applyTitleBarColor() {
+	function applyTitleBarColors() {
 		runThemeScript('python3 settitlebarcolor.py ' + toColorStr(themeAccentColor) + ' ' + toColorStr(themeTextColor))
 	}
 
-	function resetTitleBarColor() {
-		runThemeScript('python3 resettitlebarcolor.py')
+	function resetTitleBarColors() {
+		runThemeCommand('resettitlebarcolors')
 	}
 	
 	//----
 	function setTaskSvg(taskStyle) {
-		runThemeScript('python3 settasksvg.py ' + taskStyle)
+		setThemeProperty('panel.taskStyle', taskStyle)
 	}
 
 	//----
@@ -142,7 +173,7 @@ Item {
 	}
 
 	function applyDialogOpacity() {
-		runThemeScript('python3 setdialogopacity.py ' + dialogOpacity)
+		setThemeProperty('dialog.opacity', dialogOpacity)
 	}
 
 	function deferredSetDialogOpacity(val) {
@@ -158,7 +189,7 @@ Item {
 	}
 
 	function applyPanelOpacity() {
-		runThemeScript('python3 setpanelopacity.py ' + panelOpacity)
+		setThemeProperty('panel.opacity', panelOpacity)
 	}
 
 	function deferredSetPanelOpacity(val) {
@@ -174,7 +205,7 @@ Item {
 	}
 
 	function applyWidgetOpacity() {
-		runThemeScript('python3 setwidgetopacity.py ' + widgetOpacity)
+		setThemeProperty('widget.opacity', widgetOpacity)
 	}
 
 	function deferredSetWidgetOpacity(val) {
@@ -311,13 +342,13 @@ Item {
 					PlasmaComponents.Button {
 						text: i18n("Apply Colors")
 						iconName: "dialog-ok-apply"
-						onClicked: main.applyTitleBarColor()
+						onClicked: main.applyTitleBarColors()
 						implicitWidth: minimumWidth
 					}
 					PlasmaComponents.Button {
 						text: i18n("Reset Colors")
 						iconName: "edit-undo-symbolic"
-						onClicked: main.resetTitleBarColor()
+						onClicked: main.resetTitleBarColors()
 						implicitWidth: minimumWidth
 					}
 				}
