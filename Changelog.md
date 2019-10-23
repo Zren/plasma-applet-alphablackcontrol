@@ -1,6 +1,11 @@
+## v5 - December 15 2018
+
+* Add highlight color editor (requires Breeze AlphaBlack v14).
+* Add button to reset all settings to defaults.
+
 ## v4 - October 12 2018
 
-* Add text color editor (requires Breeze AlphaBlack v14).
+* Add text color editor (requires Breeze AlphaBlack v13).
 * Hide widget when widgets are locked.
 * Hide widget when not currently using Breeze AlphaBlack (or Breeze Dark since we switch to it to force a reload).
 * Add a text blurb educating the user to either lock widgets to hide, or to uninstall via the "Add Widgets" popup.
