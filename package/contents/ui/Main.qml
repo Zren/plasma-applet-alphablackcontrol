@@ -23,6 +23,7 @@ Item {
 	property real dialogOpacity: 0.9
 	property real panelOpacity: 0.9
 	property real widgetOpacity: 0.9
+	property int dialogPadding: 6
 
 	ExecUtil {
 		id: executable
@@ -110,6 +111,7 @@ Item {
 			main.dialogOpacity = config.dialog.opacity
 			main.panelOpacity = config.panel.opacity
 			main.widgetOpacity = config.widget.opacity
+			main.dialogPadding = config.dialog.padding
 			main.taskStyle = config.panel.taskStyle
 			main.configLoaded = true
 			// console.log('main.themeAccentColor', main.themeAccentColor)
@@ -180,6 +182,13 @@ Item {
 		id: widgetOpacityProperty
 		propPath: 'widget.opacity'
 		mainPropKey: 'widgetOpacity'
+	}
+
+	//----
+	ThemeProperty {
+		id: dialogPaddingProperty
+		propPath: 'dialog.padding'
+		mainPropKey: 'dialogPadding'
 	}
 
 
@@ -355,6 +364,25 @@ Item {
 					text: i18n("Desktop\nWidgets:")
 					value: main.widgetOpacity
 					setValueFunc: widgetOpacityProperty.deferredSet
+				}
+
+				PlasmaExtras.Heading {
+					text: i18n("Padding")
+					level: 3
+				}
+
+				OpacitySlider {
+					id: dialogPaddingSlider
+					text: i18n("Popup:")
+					value: main.dialogPadding
+					setValueFunc: dialogPaddingProperty.deferredSet
+					minimumValue: 0
+					maximumValue: 40
+					stepSize: 1
+
+					function formatValue(val) {
+						return i18n("%1pt", val)
+					}
 				}
 
 				PlasmaExtras.Heading {
