@@ -1,3 +1,8 @@
+## v6 - October __ 2019
+
+* Add dialog padding editor (requires Breeze AlphaBlack v16).
+* Use Breeze Alphablack's new python script. The widget will not work at all with Breeze AlphaBlack v15 and below.
+
 ## v5 - December 15 2018
 
 * Add highlight color editor (requires Breeze AlphaBlack v14).
