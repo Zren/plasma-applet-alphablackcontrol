@@ -191,6 +191,10 @@ Item {
 		id: dialogPaddingProperty
 		propPath: 'dialog.padding'
 		mainPropKey: 'dialogPadding'
+
+		onCallback: {
+			plasmoid.expanded = false
+		}
 	}
 
 

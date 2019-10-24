@@ -18,11 +18,13 @@ Timer {
 	}
 	function set(val) {
 		// console.log('ThemeProperty', 'set', propPath, val)
-		main.setThemeProperty(propPath, val)
+		main.setThemeProperty(propPath, val, callback)
 	}
 	function deferredSet(val) {
 		// console.log('ThemeProperty', 'deferredSet', propPath, main[mainPropKey])
 		main[mainPropKey] = val
 		restart()
 	}
+
+	signal callback()
 }
