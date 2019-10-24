@@ -12,7 +12,9 @@ import "lib"
 Item {
 	id: main
 
-	property bool validDesktopTheme: theme.themeName == 'breeze-alphablack' || theme.themeName == 'breeze-dark'
+	property string targetDesktopTheme: 'breeze-alphablack'
+
+	property bool validDesktopTheme: theme.themeName == targetDesktopTheme || theme.themeName == 'breeze-dark'
 	property bool widgetsUnlocked: plasmoid.immutability === PlasmaCore.Types.Mutable
 	Plasmoid.status: validDesktopTheme && widgetsUnlocked ? PlasmaCore.Types.ActiveStatus : PlasmaCore.Types.HiddenStatus
 
@@ -35,7 +37,7 @@ Item {
 
 	readonly property string breezeAlphaBlackDir: {
 		if (kuser.loginName) {
-			return '/home/' + kuser.loginName + '/.local/share/plasma/desktoptheme/breeze-alphablack'
+			return '/home/' + kuser.loginName + '/.local/share/plasma/desktoptheme/' + targetDesktopTheme
 		} else {
 			return ''
 		}
@@ -68,7 +70,7 @@ Item {
 	//----
 	function runThemeScript(relativeCommand, callback) {
 		console.log('runThemeScript', relativeCommand)
-		var cmd =  'cd ~/.local/share/plasma/desktoptheme/breeze-alphablack/ && ' + relativeCommand
+		var cmd =  'cd ~/.local/share/plasma/desktoptheme/' + targetDesktopTheme + '/ && ' + relativeCommand
 		executable.exec(cmd, callback)
 	}
 	function runThemeCommand(command, callback) {
