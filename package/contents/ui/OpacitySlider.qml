@@ -7,11 +7,15 @@ RowLayout {
 
 	property alias label: label
 	property alias valueLabel: valueLabel
-	
+
 	property alias text: label.text
 	property alias value: opacitySlider.value
 
 	property var setValueFunc: function() {}
+
+	property alias minimumValue: opacitySlider.minimumValue
+	property alias maximumValue: opacitySlider.maximumValue
+	property alias stepSize: opacitySlider.stepSize
 
 	PlasmaComponents.Label {
 		id: label
@@ -22,29 +26,28 @@ RowLayout {
 		minimumValue: 0
 		maximumValue: 1
 		stepSize: 0.01
-		// value: main.widgetOpacity
 		Layout.fillWidth: true
 		Layout.fillHeight: true
 		onValueChanged: {
 			if (!(main.configLoaded && popupView.loaded)) return;
 
-			// main.deferredSetWidgetOpacity(value)
 			opacitySliderItem.setValueFunc(value)
 		}
 	}
 	PlasmaComponents.Label {
 		id: valueLabel
-		function formatText(val) {
-			return Math.round(val * 100) + '%'
-		}
-		text: formatText(opacitySlider.value)
+		text: opacitySliderItem.formatValue(opacitySlider.value)
 		opacity: 0.6
 		Layout.preferredWidth: widthMetrics.width
 
 		TextMetrics {
 			id: widthMetrics
-			text: valueLabel.formatText(1)
+			text: opacitySliderItem.formatValue(opacitySlider.maximumValue)
 			font: valueLabel.font
 		}
+	}
+
+	function formatValue(val) {
+		return Math.round(val * 100) + '%'
 	}
 }
