@@ -69,7 +69,7 @@ Item {
 
 	//----
 	function runThemeScript(relativeCommand, callback) {
-		console.log('runThemeScript', relativeCommand)
+		// console.log('runThemeScript', relativeCommand)
 		var cmd =  'cd ~/.local/share/plasma/desktoptheme/' + targetDesktopTheme + '/ && ' + relativeCommand
 		executable.exec(cmd, callback)
 	}
