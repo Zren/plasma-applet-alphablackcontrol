@@ -251,6 +251,7 @@ Item {
 					value: main.themeAccentColor
 					label: ""
 					showAlphaChannel: false
+					buttonOutlineColor: theme.textColor
 					
 					onValueChanged: apply()
 					function apply() {
@@ -273,6 +274,7 @@ Item {
 					value: main.themeTextColor
 					label: ""
 					showAlphaChannel: false
+					buttonOutlineColor: theme.textColor
 					
 					onValueChanged: apply()
 					function apply() {
@@ -295,6 +297,7 @@ Item {
 					value: main.themeHighlightColor
 					label: ""
 					showAlphaChannel: false
+					buttonOutlineColor: theme.textColor
 					
 					onValueChanged: apply()
 					function apply() {
