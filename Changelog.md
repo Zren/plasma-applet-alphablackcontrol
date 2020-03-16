@@ -1,7 +1,8 @@
-## v6 - October __ 2019
+## v6 - March 15 2020
 
 * Add dialog padding editor (requires Breeze AlphaBlack v16).
 * Use Breeze Alphablack's new python script. The widget will not work at all with Breeze AlphaBlack v15 and below.
+* Add translation scripts.
 
 ## v5 - December 15 2018
 
