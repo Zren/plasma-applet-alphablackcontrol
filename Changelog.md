@@ -1,3 +1,8 @@
+## v7 - December 11 2020
+
+* Now requires Breeze AlphaBlack v17.
+* Fix Apply Titlebar Colors button which used a script removed in Breeze AlphaBlack v17 (Mentioned in Issue #2)
+
 ## v6 - March 15 2020
 
 * Add dialog padding editor (requires Breeze AlphaBlack v16).
