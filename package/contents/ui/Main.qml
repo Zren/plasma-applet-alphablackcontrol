@@ -26,6 +26,7 @@ Item {
 	property real panelOpacity: 0.9
 	property real widgetOpacity: 0.9
 	property int dialogPadding: 6
+	property int panelPadding: 2
 
 	ExecUtil {
 		id: executable
@@ -114,6 +115,7 @@ Item {
 			main.panelOpacity = config.panel.opacity
 			main.widgetOpacity = config.widget.opacity
 			main.dialogPadding = config.dialog.padding
+			main.panelPadding = config.panel.padding
 			main.taskStyle = config.panel.taskStyle
 			main.configLoaded = true
 			// console.log('main.themeAccentColor', main.themeAccentColor)
@@ -195,6 +197,11 @@ Item {
 		onCallback: {
 			plasmoid.expanded = false
 		}
+	}
+	ThemeProperty {
+		id: panelPaddingProperty
+		propPath: 'panel.padding'
+		mainPropKey: 'panelPadding'
 	}
 
 
@@ -385,6 +392,20 @@ Item {
 					text: i18n("Popup:")
 					value: main.dialogPadding
 					setValueFunc: dialogPaddingProperty.deferredSet
+					minimumValue: 0
+					maximumValue: 40
+					stepSize: 1
+
+					function formatValue(val) {
+						return i18n("%1pt", val)
+					}
+				}
+
+				OpacitySlider {
+					id: panelPaddingSlider
+					text: i18n("Panel:")
+					value: main.panelPadding
+					setValueFunc: panelPaddingProperty.deferredSet
 					minimumValue: 0
 					maximumValue: 40
 					stepSize: 1
