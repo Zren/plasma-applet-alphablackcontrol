@@ -1,3 +1,7 @@
+## v8 - February 25 2021
+
+* Add slider to control the panel padding. In Plasma 5.21, I recommend a panel padding of 0px to fix the dead space at the edges of the panel.
+
 ## v7 - December 11 2020
 
 * Now requires Breeze AlphaBlack v17.
